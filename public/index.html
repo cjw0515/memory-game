@@ -35,20 +35,67 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script>
 
+    $(function () {
+      $('span').hide();
+    })
+
+
     var elementNum = 6
     var cardArr = new Array();
-
+    var target
+    var flipStatus = '';
+    var coverStatus = false;
+    var isCovering = false;
+    var gameStatus = "on";
     // console.log(elementNum);
 
     for (var i = 0; i < elementNum; i++) {
       cardArr.push(i);
     }
 
+    function callback() {
+      $('span').show();
+    }
+
+    $(document).on('click', 'ul li', function () {
+      if (flipStatus === true) return;
+      if (coverStatus === false) return;
+      if (gameStatus === 'over') return;
+
+      if (target === $("li").index(this) + 1) {
+        gameStatus = "over"
+        callback()
+      }
+
+      $(this).removeClass('cover');
+      $(this).find('img').show();
+      flipStatus = true;
+
+      setTimeout(() => {
+        $(this).addClass('cover');
+        $(this).find('img').hide();
+        flipStatus = false;
+      }, 2000);
+
+    })
+
+    function setTarget() {
+      target = getRanNumber(elementNum);
+      document.getElementById('target').innerHTML = target;
+    }
+
+    function initiateGame() {
+
+    }
+
     function setCard() {
+      setTarget();
+      gameStatus = "on";
+      if (isCovering === true) return;
+      isCovering = true;
       removeCard();
-      console.log(cardArr);
       shuffleCard();
-      console.log(cardArr);
+      $('ul li').removeClass('cover');
       $('ul li').each(function (index, element) {
         $('<img>', {
           src: cardArr[index] + 1 + '.jpg'
@@ -57,6 +104,17 @@
         }).appendTo(element);
       });
 
+      setTimeout(() => {
+        coverAll();
+        coverStatus = true;
+        isCovering = false;
+      }, 2000);
+
+    }
+
+    function coverAll() {
+      $('ul li').addClass('cover');
+      $('ul li img').hide();
     }
 
     function removeCard() {
@@ -89,14 +147,22 @@
 <body>
   <div id="root"></div>
   <button onclick="setCard();">초기화</button>
-  <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul>
+  <span id="target"></span>
+  <div>
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <div>
+    <span>
+      <h3>맞췄습니다!!!!!!!!!!!!!</h3>
+    </span>
+  </div>
 
 </body>
 
