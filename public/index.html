@@ -9,8 +9,6 @@
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
   <title></title>
   <style>
-    ul {}
-
     ul li {
       list-style: none;
       float: left;
@@ -36,31 +34,55 @@
   </style>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script>
-    $(function () {
-      //      $("ul li").addClass("cover");
 
-      $('ul li').each(function (index, element) {
-        //  $(element)
-        $('<img>', {
-          src: index + 1 + '.jpg',
-          // alt: 'Little Bear',
-          // title: 'I woof in your general direction',
-          click: function () {
-            alert($(this).attr('title'));
-          }
-        }).css({
-          //        cursor: 'pointer',
-          backgroundColor: 'white'
-        }).appendTo(element);
-      })
-    });
+    var elementNum = 6
+    var cardArr = new Array();
 
+    // console.log(elementNum);
 
-
+    for (var i = 0; i < elementNum; i++) {
+      cardArr.push(i);
+    }
 
     function setCard() {
+      removeCard();
+      console.log(cardArr);
+      shuffleCard();
+      console.log(cardArr);
+      $('ul li').each(function (index, element) {
+        $('<img>', {
+          src: cardArr[index] + 1 + '.jpg'
+        }).css({
+          backgroundColor: 'white'
+        }).appendTo(element);
+      });
 
     }
+
+    function removeCard() {
+      $('ul li img').remove();
+    }
+
+    function getRanNumber(n) {
+      var rannum = Math.floor(Math.random() * n)
+      return rannum;
+    }
+
+    function shuffleCard() {
+
+      var tmp;
+      var ranNum = getRanNumber(elementNum);
+
+      cardArr.forEach(function (val, idx) {
+
+        tmp = cardArr[idx];
+        cardArr[idx] = cardArr[ranNum];
+        cardArr[ranNum] = tmp;
+
+      });
+    }
+
+
   </script>
 </head>
 
@@ -68,9 +90,7 @@
   <div id="root"></div>
   <button onclick="setCard();">초기화</button>
   <ul>
-    <li>
-
-    </li>
+    <li></li>
     <li></li>
     <li></li>
     <li></li>
