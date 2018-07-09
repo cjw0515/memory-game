@@ -32,121 +32,123 @@
       background-color: lightgrey;
     }
   </style>
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-  <script src="memoryGame.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>  
+  <script src="memoryGame.js"></script>  
   <script>
-    var memoryGame = singleTonObj.getInstance();
-    console.log(memoryGame.testValue);
-    var memoryGame2 = singleTonObj.getInstance();
-    console.log(memoryGame2.testValue);
+    var test = document.getElementById("items")
+    console.log(test);
+    // var imgArr = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg"]    
+    // var ulelement = document.getElementById("items");
+    // var game = memoryGame.getInstance(imgArr, ulelement);
+    // game.startGame();
   </script>
   <script>
+    // $(function () {
+    //   $('span').hide();
+    // })
 
-    $(function () {
-      $('span').hide();
-    })
 
+    // var elementNum = 6
+    // var cardArr = new Array();
+    // var target
+    // var flipStatus = '';
+    // var coverStatus = false;
+    // var isCovering = false;
+    // var gameStatus = "on";
+    // // console.log(elementNum);
 
-    var elementNum = 6
-    var cardArr = new Array();
-    var target
-    var flipStatus = '';
-    var coverStatus = false;
-    var isCovering = false;
-    var gameStatus = "on";
-    // console.log(elementNum);
+    // for (var i = 0; i < elementNum; i++) {
+    //   cardArr.push(i);
+    // }
 
-    for (var i = 0; i < elementNum; i++) {
-      cardArr.push(i);
-    }
+    // function callback() {
+    //   $('span').show();
+    // }
 
-    function callback() {
-      $('span').show();
-    }
+    // $(document).on('click', 'ul li', function () {
+    //   if (flipStatus === true) return;
+    //   if (coverStatus === false) return;
+    //   if (gameStatus === 'over') return;
 
-    $(document).on('click', 'ul li', function () {
-      if (flipStatus === true) return;
-      if (coverStatus === false) return;
-      if (gameStatus === 'over') return;
+    //   if (target === $("li").index(this) + 1) {
+    //     gameStatus = "over"
+    //     callback()
+    //   }
 
-      if (target === $("li").index(this) + 1) {
-        gameStatus = "over"
-        callback()
-      }
+    //   $(this).removeClass('cover');
+    //   $(this).find('img').show();
+    //   flipStatus = true;
 
-      $(this).removeClass('cover');
-      $(this).find('img').show();
-      flipStatus = true;
+    //   setTimeout(() => {
+    //     $(this).addClass('cover');
+    //     $(this).find('img').hide();
+    //     flipStatus = false;
+    //   }, 2000);
 
-      setTimeout(() => {
-        $(this).addClass('cover');
-        $(this).find('img').hide();
-        flipStatus = false;
-      }, 2000);
+    // })
 
-    })
+    // function setTarget() {
+    //   target = getRanNumber(elementNum);
+    //   document.getElementById('target').innerHTML = target;
+    //   console.log('settarget');
+    // }
 
-    function setTarget() {
-      target = getRanNumber(elementNum);
-      document.getElementById('target').innerHTML = target;
-      console.log('settarget');
-    }
+    // function initiateGame() {
 
-    function initiateGame() {
+    // }
 
-    }
+    // function setCard() {
+    //   gameStatus = "on";
+    //   if (isCovering === true) return;
+    //   isCovering = true;
+    //   removeCard();
+    //   shuffleCard();
+    //   $('ul li').removeClass('cover');
+    //   $('ul li').each(function (index, element) {
+    //     $('<img>', {
+    //       src: cardArr[index] + 1 + '.jpg'
+    //     }).css({
+    //       backgroundColor: 'white'
+    //     }).appendTo(element);
+    //   });
 
-    function setCard() {
-      gameStatus = "on";
-      if (isCovering === true) return;
-      isCovering = true;
-      removeCard();
-      shuffleCard();
-      $('ul li').removeClass('cover');
-      $('ul li').each(function (index, element) {
-        $('<img>', {
-          src: cardArr[index] + 1 + '.jpg'
-        }).css({
-          backgroundColor: 'white'
-        }).appendTo(element);
-      });
+    //   setTimeout(() => {
+    //     setTarget();
+    //     coverAll();
+    //     coverStatus = true;
+    //     isCovering = false;
+    //   }, 2000);
 
-      setTimeout(() => {
-        setTarget();
-        coverAll();
-        coverStatus = true;
-        isCovering = false;
-      }, 2000);
+    // }
 
-    }
+    // function coverAll() {
+    //   $('ul li').addClass('cover');
+    //   $('ul li img').hide();
+    // }
 
-    function coverAll() {
-      $('ul li').addClass('cover');
-      $('ul li img').hide();
-    }
+    // function removeCard() {
+    //   $('ul li img').remove();
+    // }
 
-    function removeCard() {
-      $('ul li img').remove();
-    }
+    // function getRanNumber(n) {
+    //   var rannum = Math.floor(Math.random() * n)
+    //   return rannum;
+    // }
 
-    function getRanNumber(n) {
-      var rannum = Math.floor(Math.random() * n)
-      return rannum;
-    }
+    // function shuffleCard() {
 
-    function shuffleCard() {
+    //   var tmp;
+    //   var ranNum = getRanNumber(elementNum);
 
-      var tmp;
-      var ranNum = getRanNumber(elementNum);
+    //   cardArr.forEach(function (val, idx) {
 
-      cardArr.forEach(function (val, idx) {
+    //     tmp = cardArr[idx];
+    //     cardArr[idx] = cardArr[ranNum];
+    //     cardArr[ranNum] = tmp;
 
-        tmp = cardArr[idx];
-        cardArr[idx] = cardArr[ranNum];
-        cardArr[ranNum] = tmp;
-
-      });
-    }
+    //   });
+    //   // console.log(cardArr);
+    // }
 
 
   </script>
@@ -154,24 +156,10 @@
 
 <body>
   <div id="root"></div>
-  <button onclick="setCard();">초기화</button>
-  <span id="target"></span>
-  <div>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-  </div>
-  <div>
-    <span>
-      <h3></h3>
-    </span>
-  </div>
-  <button onclick="">test</button>
+  <ul id="items">
+
+  </ul>
+  <span id="test"></span>
 </body>
 
 </html>
