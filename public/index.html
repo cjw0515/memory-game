@@ -33,6 +33,13 @@
     }
   </style>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="memoryGame.js"></script>
+  <script>
+    var memoryGame = singleTonObj.getInstance();
+    console.log(memoryGame.testValue);
+    var memoryGame2 = singleTonObj.getInstance();
+    console.log(memoryGame2.testValue);
+  </script>
   <script>
 
     $(function () {
@@ -161,10 +168,10 @@
   </div>
   <div>
     <span>
-      <h3>맞췄습니다!!!!!!!!!!!!!</h3>
+      <h3></h3>
     </span>
   </div>
-
+  <button onclick="">test</button>
 </body>
 
 </html>
