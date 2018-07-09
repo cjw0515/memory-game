@@ -11,7 +11,7 @@ var memoryGame = (function(){
     function initiate(imgArr, ulElement){//게임 초기화
 
         if(imgArr.length < 1) console.error('이미지 배열을 매개변수로 넣어주세요.');
-
+        
         var ul = ulElement;
         var itemImgArr= imgArr
         var itemCoverImg= ""
@@ -24,6 +24,7 @@ var memoryGame = (function(){
         return {
             startGame: function(){
                 console.log("startGame");
+                gameStatus = true;
                 this.initiateItem();                
             },
             getRandomNumber: function(n){
@@ -37,7 +38,8 @@ var memoryGame = (function(){
             },
             renderItemList: function(){
                 for(var i = 0 ; i < elementNumber ; i++){                    
-                    var li = document.createElement("li");             
+                    var li = document.createElement("li");  
+                    li.addEventListener("click", this.flipItem);           
                     var img = document.createElement("img");
                     img.setAttribute("src", itemImgArr[i]);
                     li.appendChild(img);
@@ -45,15 +47,21 @@ var memoryGame = (function(){
                 }
                 return this;
             },
-            flipItem: function(){                            
+            flipItem: function(e){              
+                console.log("flipItem");
+
                 if(flipStatus===true)return;
                 if(gameStatus===false)return;
+                
+                e.target.className="cover"
+                console.log(e.target.children);
 
                 flipStatus = true;   
                 //맞추기 function추가
 
                 setTimeout(function(){
                     //뒤집기 css 추가
+                    e.target.className=""
                     flipStatus = false;
                 },2000)
             },
@@ -77,7 +85,7 @@ var memoryGame = (function(){
                 console.log(itemImgArr);             
                 return this;
             },
-            returnToCover: function(){
+            returnToCover: function(obj){
                 return this;
             },
             coverItems: function(){
