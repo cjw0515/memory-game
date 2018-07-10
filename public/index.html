@@ -22,7 +22,7 @@
       line-height: 150px;
     }
 
-    ul li img {
+    img {
       vertical-align: middle;
       max-width: 70px;
       margin-left: 40px;
@@ -31,20 +31,20 @@
     .cover {
       background-color: lightgrey;
     }
+
+    #target{
+      border: 1px solid black;
+      border-radius: 100%;
+      width: 150px;
+      height: 150px;
+      margin-left: 140px;
+      display: block;
+      height: 150px;
+      line-height: 150px;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>  
-  <script src="memoryGame.js"></script>  
-  <script>
-    var imgArr = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg"];    
-    
-    function start(){
-      var ulElement = document.getElementById("items");
-      console.log(ulElement);
-      var game = memoryGame.getInstance(imgArr, ulElement);
-      game.startGame();
-    }
-    
-  </script>
+  
   <script>
     // $(function () {
     //   $('span').hide();
@@ -159,11 +159,24 @@
 
 <body>
   <div id="root"></div>
+  <span id="target"></span>
   <ul id="items">
 
   </ul>
   <span id="test"></span>
-  <button onclick="start()">test</button>
+  <script src="memoryGame.js"></script>  
+  <script>
+    var imgArr = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg"];    
+    
+    function callbackFunction(){
+      alert('맞췄습니다..');
+    }
+
+    var ulElement = document.getElementById("items");
+    console.log(ulElement);
+    var game = memoryGame.getInstance(imgArr, ulElement, callbackFunction);
+    game.startGame();    
+  </script>  
 </body>
 
 </html>

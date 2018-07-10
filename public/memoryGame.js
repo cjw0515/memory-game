@@ -8,23 +8,29 @@ var memoryGame = (function(){
      * 커버 이미지
      * 
      */
-    function initiate(imgArr, ulElement){//게임 초기화
-
-        if(imgArr.length < 1) console.error('이미지 배열을 매개변수로 넣어주세요.');
+    function initiate(imgArr, ulElement, cb){//게임 초기화
         
-        var ul = ulElement;
-        var itemImgArr= imgArr
-        var itemCoverImg= ""
-        var elementNumber= itemImgArr.length
-        var target= ""
-        var coverStatus= false
-        var flipStatus= false
-        var gameStatus= false 
+        var ul = ulElement;        
+        var liArr = "";
+        var itemImgArr= imgArr;
+        var itemCoverImg= "";
+        var elementNumber= itemImgArr.length;
+        var target= "";
+        var eventTarget="";
+        var eventTargetIndex="";
+        var coverStatus= false;
+        var flipStatus= false;
+        var gameStatus= false;
+        var targetType = 2;
 
         return {
             startGame: function(){
-                console.log("startGame");
-                gameStatus = true;
+                console.log("startGame");                
+                if(imgArr.length < 1){
+                    console.error('이미지 배열을 매개변수로 넣어주세요.');
+                    return;
+                }      
+                gameStatus = true;                
                 this.initiateItem();                
             },
             getRandomNumber: function(n){
@@ -33,41 +39,50 @@ var memoryGame = (function(){
             },
             initiateItem: function(){
                 console.log("initiateItem");
-                //아이템 섞기, 찾고자 하는 타겟 설정
-                this.shuffleItem().setTarget().renderItemList();                
+                this.shuffleItem().renderItemList().coverAll().setTarget();                
             },
             renderItemList: function(){
                 for(var i = 0 ; i < elementNumber ; i++){                    
                     var li = document.createElement("li");  
-                    li.addEventListener("click", this.flipItem);           
+                    li.addEventListener("click", this.setEventTarget);           
+                    li.addEventListener("click", this.flipItem.bind(this));                               
                     var img = document.createElement("img");
                     img.setAttribute("src", itemImgArr[i]);
                     li.appendChild(img);
                     ul.appendChild(li);                             
                 }
+                liArr = ul.getElementsByTagName('li');
                 return this;
             },
-            flipItem: function(e){              
-                console.log("flipItem");
+            flipItem: function(){              
+                console.log("flipItem");                
+                if(flipStatus===false)return;
+                if(gameStatus===false)return;           
+                // if(this.isTarget(eventTarget))return;
 
-                if(flipStatus===true)return;
-                if(gameStatus===false)return;
-                
-                e.target.className="cover"
-                console.log(e.target.children);
-
-                flipStatus = true;   
-                //맞추기 function추가
-
+                this.toFront(eventTarget);
                 setTimeout(function(){
-                    //뒤집기 css 추가
-                    e.target.className=""
-                    flipStatus = false;
-                },2000)
+                    this.toBack(eventTarget);
+                    if(this.isPickTarget()){
+                        gameStatus=false;
+                        this.cbFunction();
+                    }                    
+                }.bind(this), 2000);               
+                
             },
             setTarget: function(){
-                console.log("setTarget");
-                target = this.getRandomNumber(elementNumber);                
+
+                if(targetType === 1){
+                    console.log("setTarget");
+                    target = this.getRandomNumber(elementNumber);
+                    this.toFront(liArr[target]); 
+                    flipStatus=true;
+                }else if(targetType === 2){
+                    target = this.getRandomNumber(elementNumber);
+                    var img = document.createElement("img");
+                    img.setAttribute("src", imgArr[target]);
+                    document.getElementById("target").appendChild(img);
+                }
                 return this;
             },
             shuffleItem: function(){
@@ -79,28 +94,63 @@ var memoryGame = (function(){
                     ranNum = this.getRandomNumber(elementNumber);
                     tmp = itemImgArr[idx];
                     itemImgArr[idx] = itemImgArr[ranNum];
-                    itemImgArr[ranNum] = tmp;
-                    
+                    itemImgArr[ranNum] = tmp;                    
                 }   
                 console.log(itemImgArr);             
                 return this;
             },
-            returnToCover: function(obj){
+            toBack: function(et){
+                console.log("toback");                                                
+                flipStatus = true;   
+                et.className="cover"
+                et.children[0].style.display = "none";                
                 return this;
             },
-            coverItems: function(){
-
+            toFront: function(et){                
+                console.log("tofront");
+                flipStatus = false;
+                et.className=""
+                et.children[0].style.display = "inline";                                    
+                return this;                
             },
-            getItemIndex: function(){
+            setEventTarget: function(e){
+                if( flipStatus === false ) return;              
+                eventTarget = e.target;                
+                eventTargetIndex = Array.prototype.indexOf.call(eventTarget.parentNode.childNodes, eventTarget) - 1;
+            },
+            coverAll: function(){
+                for(var i = 0 ; i < liArr.length ; i++ ){
+                    this.toBack(liArr[i]);   
+                }             
+                return this;
+            },
+            isBack: function(){
+                return eventTarget.className === "cover" ? true : false;
+            },
+            isTarget: function(){                
+                return eventTargetIndex === target ? true : false;
+            },
+            isPickTarget: function(){
+                console.log(`pick: ${eventTargetIndex}, target: ${target}`);
+                var result;
 
-            }
+                if(targetType === 1){
+
+                }else if(targetType === 2){ 
+                    result = eventTargetIndex === target ? true : false;
+                }
+
+                return result;
+            },
+            cbFunction: cb            
+            
         }
     }
 
     return {
-        getInstance: function(imgArr, ulElement){//instance객체가 있는 경우에는 initiate를 거치지 않고 바로 반환
+        getInstance: function(imgArr, ulElement, cb){
             if(!instance){
-                instance = initiate(imgArr, ulElement);
+                instance = initiate(imgArr, ulElement, cb);
             }
             return instance;
         }
